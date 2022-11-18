@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
 
-const verifyJWT = (req, res, next) => {
+const verifyJwt = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  console.log(req.headers);
   if (!authHeader) {
     return res.status(401).json({
       success: false,
@@ -18,10 +17,9 @@ const verifyJWT = (req, res, next) => {
         message: 'Invalid token',
       });
     }
-    console.log(decoded);
     req.user = decoded.user;
     next();
   });
 };
 
-module.exports = verifyJWT;
+module.exports = verifyJwt;

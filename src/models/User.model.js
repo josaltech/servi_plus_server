@@ -18,4 +18,15 @@ const UserSchema = new Schema(
   }
 );
 
+UserSchema.set('toJSON', {
+  virtuals: true,
+  getters: true,
+  versionKey: false,
+  transform: (_doc, ret) => {
+    ret.createdAt = _doc.createdAt.toLocaleString();
+    ret.updatedAt = _doc.updatedAt.toLocaleString();
+    delete ret._id;
+  },
+});
+
 module.exports = model('User', UserSchema);

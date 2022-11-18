@@ -3,7 +3,7 @@ const {
   postTicket,
   getTickets,
   getTicket,
-  patchTicket,
+  putTicket,
   deleteTicket,
 } = require('../controllers/tickets.controller');
 const ticketsRouter = Router();
@@ -13,7 +13,7 @@ ticketsRouter.get('/', getTickets);
 ticketsRouter
   .route('/:ticketId')
   .get(getTicket)
-  .patch(patchTicket)
+  .put(putTicket)
   .delete(deleteTicket);
 
 module.exports = ticketsRouter;

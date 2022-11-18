@@ -5,7 +5,7 @@ const postTicket = async (req, res) => {
     const ticket = await Ticket.create({ userId: req.user.id, ...req.body });
     res.status(201).json({
       success: true,
-      data: ticket,
+      data: { ticket },
     });
   } catch (error) {
     res.status(400).json({
@@ -18,9 +18,10 @@ const postTicket = async (req, res) => {
 const getTickets = async (req, res) => {
   try {
     const tickets = await Ticket.find({ userId: req.user.id });
+
     res.status(200).json({
       success: true,
-      data: tickets,
+      data: { tickets: tickets.map((ticket) => ticket.toJSON()) },
     });
   } catch (error) {
     res.status(400).json({
@@ -46,16 +47,15 @@ const getTicket = async (req, res) => {
   }
 };
 
-const patchTicket = async (req, res) => {
+const putTicket = async (req, res) => {
   try {
     const { ticketId } = req.params;
     const ticket = await Ticket.findByIdAndUpdate(ticketId, req.body, {
       new: true,
-      runValidators: true,
     });
     res.status(200).json({
       success: true,
-      data: ticket,
+      data: { ticket },
     });
   } catch (error) {
     res.status(400).json({
@@ -71,7 +71,7 @@ const deleteTicket = async (req, res) => {
     const ticket = await Ticket.findByIdAndDelete(ticketId);
     res.status(200).json({
       success: true,
-      data: ticket,
+      data: { ticket },
     });
   } catch (error) {
     res.status(400).json({
@@ -85,6 +85,6 @@ module.exports = {
   postTicket,
   getTickets,
   getTicket,
-  patchTicket,
+  putTicket,
   deleteTicket,
 };
